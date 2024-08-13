@@ -22,8 +22,8 @@
  */
 #include "config.h"
 
-/* On BSD, define FD_SETSIZE to what we want before including sys/types.h */
-#if  defined(__FreeBSD__) || defined(__NetBSD__) || defined(__bsdi__)
+/* On BSD and Mac OS, define FD_SETSIZE to what we want before including sys/types.h */
+#if  defined(__FreeBSD__) || defined(__NetBSD__) || defined(__bsdi__) || defined(__APPLE__)
 # if !defined(FD_SETSIZE)
 #  define FD_SETSIZE ((MAXCONNECTIONS)+4)
 # endif
