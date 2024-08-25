@@ -111,9 +111,9 @@ find_cap(const char **caplist_p, int *neg_p)
   /* OK, now see if we can look up the capability... */
   if (*caplist) {
     if (!(cap = (struct capabilities *)bsearch(caplist, capab_list,
-       CAPAB_LIST_LEN,
-       sizeof(struct capabilities),
-       (bqcmp)capab_search))) {
+					       CAPAB_LIST_LEN,
+					       sizeof(struct capabilities),
+					       (bqcmp)capab_search))) {
       /* Couldn't find the capability; advance to first whitespace character */
       while (*caplist && !IsSpace(*caplist))
 	caplist++;
@@ -221,8 +221,8 @@ cap_req(struct Client *sptr, const char *caplist)
   memset(&rem, 0, sizeof(rem));
   while (cl) { /* walk through the capabilities list... */
     if (!(cap = find_cap(&cl, &neg)) /* look up capability... */
-	|| !feature_bool(cap->config) /* is it deactivated in config? */
-	|| (!neg && (cap->flags & CAPFL_PROHIBIT)) /* is it prohibited? */
+        || !feature_bool(cap->config) /* is it deactivated in config? */
+        || (!neg && (cap->flags & CAPFL_PROHIBIT)) /* is it prohibited? */
         || (neg && (cap->flags & CAPFL_STICKY))) { /* is it sticky? */
       sendcmdto_one(&me, CMD_CAP, sptr, "%C NAK :%s", sptr, caplist);
       return 0; /* can't complete requested op... */

@@ -609,8 +609,8 @@ void sendcmdto_capflag_channel_butserv_butone(struct Client *from, const char *c
         || (skip & SKIP_DEAF && IsDeaf(member->user))
         || (skip & SKIP_NONOPS && !IsChanOp(member))
         || (skip & SKIP_NONVOICES && !IsChanOp(member) && !HasVoice(member))
-        || (require < _CAP_LAST_CAP) && !CapHas(cli_active(member->user), require)
-        || (forbid < _CAP_LAST_CAP) && CapHas(cli_active(member->user), forbid))
+        || (require < _CAP_LAST_CAP && !CapHas(cli_active(member->user), require))
+        || (forbid < _CAP_LAST_CAP && CapHas(cli_active(member->user), forbid)))
         continue;
 
     send_buffer(member->user, mb, 0);
