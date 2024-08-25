@@ -367,6 +367,13 @@ static struct FeatureDesc {
   /* features that affect all operators */
   F_B(CONFIG_OPERCMDS, 0, 0, 0),
 
+  /* IRCv3 capabilities */
+  F_B(CAP_ACCOUNTNOTIFY, 0, 1, 0),
+  F_B(CAP_AWAYNOTIFY, 0, 1, 0),
+  F_B(CAP_CHGHOST, 0, 1, 0),
+  F_B(CAP_ECHOMESSAGE, 0, 1, 0),
+  F_B(CAP_EXTJOIN, 0, 1, 0),
+
   /* HEAD_IN_SAND Features */
   F_B(HIS_SNOTICES, 0, 1, 0),
   F_B(HIS_SNOTICES_OPER_ONLY, 0, 1, 0),
