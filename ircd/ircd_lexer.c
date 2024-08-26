@@ -119,6 +119,7 @@ static const struct lexer_token tokens[] = {
   { "local_opmode", TPRIV_LOCAL_OPMODE },
   { "location", LOCATION },
   { "mask", MASK },
+  { "maxflood", MAXFLOOD },
   { "maxhops", MAXHOPS },
   { "maxlinks", MAXLINKS },
   { "mb", MBYTES },
