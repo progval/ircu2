@@ -182,7 +182,11 @@ int m_oper(struct Client* cptr, struct Client* sptr, int parc, char* parv[])
     SetFlag(sptr, FLAG_DEBUG);
     
     set_snomask(sptr, SNO_OPERDEFAULT, SNO_ADD);
-    cli_max_sendq(sptr) = 0; /* Get the sendq from the oper's class */
+
+    /* Get the sendq and flood limit from the oper's class */
+    cli_max_sendq(sptr) = 0;
+    cli_max_flood(sptr) = 0;
+
     send_umode_out(cptr, sptr, &old_mode, HasPriv(sptr, PRIV_PROPAGATE));
     send_reply(sptr, RPL_YOUREOPER);
 

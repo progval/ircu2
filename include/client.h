@@ -210,6 +210,7 @@ struct Connection
   struct SLink*       con_confs;     /**< Associated configuration records. */
   struct ListingArgs* con_listing;   /**< Current LIST status. */
   unsigned int        con_max_sendq; /**< cached max send queue for client */
+  unsigned int        con_max_flood; /**< cached client flood limit */
   unsigned int        con_ping_freq; /**< cached ping freq */
   unsigned short      con_lastsq;    /**< # 2k blocks when sendqueued
                                         called last. */
@@ -357,6 +358,8 @@ struct Client {
 #define cli_listing(cli)	con_listing(cli_connect(cli))
 /** Get cached max SendQ for client. */
 #define cli_max_sendq(cli)	con_max_sendq(cli_connect(cli))
+/** Get cached flood limit for client. */
+#define cli_max_flood(cli)	con_max_flood(cli_connect(cli))
 /** Get ping frequency for client. */
 #define cli_ping_freq(cli)	con_ping_freq(cli_connect(cli))
 /** Get lastsq for client's connection. */
@@ -434,6 +437,8 @@ struct Client {
 #define con_listing(con)	((con)->con_listing)
 /** Get the maximum permitted SendQ size for the connection. */
 #define con_max_sendq(con)	((con)->con_max_sendq)
+/** Get the flood limit for the connection. */
+#define con_max_flood(con)	((con)->con_max_flood)
 /** Get the ping frequency for the connection. */
 #define con_ping_freq(con)	((con)->con_ping_freq)
 /** Get the lastsq for the connection. */
@@ -736,6 +741,9 @@ struct Client {
 #define HasCap(cli, cap)    CapHas(cli_capab(cli), (cap))
 /** Test whether a client has the capability active */
 #define CapActive(cli, cap) CapHas(cli_active(cli), (cap))
+
+/** A client's max flood limit; either set in its class, its privilege class (if applicabe) or default setting.  */
+#define GetMaxFlood(cli) (cli_max_flood(cli) ? cli_max_flood(cli) : find_max_flood(cli))
 
 #define HIDE_IP 0 /**< Do not show IP address in get_client_name() */
 #define SHOW_IP 1 /**< Show ident and IP address in get_client_name() */
