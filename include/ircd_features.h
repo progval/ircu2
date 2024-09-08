@@ -102,6 +102,13 @@ enum Feature {
   /* features that affect all operators */
   FEAT_CONFIG_OPERCMDS,
 
+  /* IRCv3 capabilities */
+  FEAT_CAP_ACCOUNTNOTIFY,
+  FEAT_CAP_AWAYNOTIFY,
+  FEAT_CAP_CHGHOST,
+  FEAT_CAP_ECHOMESSAGE,
+  FEAT_CAP_EXTJOIN,
+
   /* HEAD_IN_SAND Features */
   FEAT_HIS_SNOTICES,
   FEAT_HIS_SNOTICES_OPER_ONLY,

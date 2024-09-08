@@ -3555,7 +3555,12 @@ joinbuf_join(struct JoinBuf *jbuf, struct Channel *chan, unsigned int flags)
 
     if (!((chan->mode.mode & MODE_DELJOINS) && !(flags & CHFL_VOICED_OR_OPPED))) {
       /* Send the notification to the channel */
-      sendcmdto_channel_butserv_butone(jbuf->jb_source, CMD_JOIN, chan, NULL, 0, "%H", chan);
+      sendcmdto_capflag_channel_butserv_butone(jbuf->jb_source, CMD_JOIN, chan, NULL, 0,
+        _CAP_LAST_CAP, CAP_EXTJOIN, "%H", chan);
+      sendcmdto_capflag_channel_butserv_butone(jbuf->jb_source, CMD_JOIN, chan, NULL, 0,
+        CAP_EXTJOIN, _CAP_LAST_CAP, "%H %s :%s", chan,
+        IsAccount(jbuf->jb_source) ? cli_account(jbuf->jb_source) : "*",
+        cli_info(jbuf->jb_source));
 
       /* send an op, too, if needed */
       if (flags & CHFL_CHANOP && (oplevel < MAXOPLEVEL || !MyUser(jbuf->jb_source)))
@@ -3647,8 +3652,13 @@ int IsInvited(struct Client* cptr, const void* chptr)
 void RevealDelayedJoin(struct Membership *member)
 {
   ClearDelayedJoin(member);
-  sendcmdto_channel_butserv_butone(member->user, CMD_JOIN, member->channel, member->user, 0, ":%H",
-                                   member->channel);
+  sendcmdto_capflag_channel_butserv_butone(member->user, CMD_JOIN, member->channel, NULL, 0,
+        _CAP_LAST_CAP, CAP_EXTJOIN, "%H", member->channel);
+  sendcmdto_capflag_channel_butserv_butone(member->user, CMD_JOIN, member->channel, NULL, 0,
+        CAP_EXTJOIN, _CAP_LAST_CAP, "%H %s :%s", member->channel,
+        IsAccount(member->user) ? cli_account(member->user) : "*",
+        cli_info(member->user));
+
   CheckDelayedJoins(member->channel);
 }
 

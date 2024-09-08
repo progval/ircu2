@@ -144,5 +144,8 @@ int ms_account(struct Client* cptr, struct Client* sptr, int parc,
                         acptr, cli_user(acptr)->account,
                         cli_user(acptr)->acc_create);
 
+  sendcmdto_capflag_common_channels_butone(acptr, CMD_ACCOUNT, acptr, CAP_ACCOUNTNOTIFY,
+                        _CAP_LAST_CAP, "%s", cli_user(acptr)->account);
+
   return 0;
 }
