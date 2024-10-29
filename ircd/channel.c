@@ -3555,12 +3555,16 @@ joinbuf_join(struct JoinBuf *jbuf, struct Channel *chan, unsigned int flags)
 
     if (!((chan->mode.mode & MODE_DELJOINS) && !(flags & CHFL_VOICED_OR_OPPED))) {
       /* Send the notification to the channel */
+      const struct User* user = cli_user(jbuf->jb_source);
       sendcmdto_capflag_channel_butserv_butone(jbuf->jb_source, CMD_JOIN, chan, NULL, 0,
         _CAP_LAST_CAP, CAP_EXTJOIN, "%H", chan);
       sendcmdto_capflag_channel_butserv_butone(jbuf->jb_source, CMD_JOIN, chan, NULL, 0,
         CAP_EXTJOIN, _CAP_LAST_CAP, "%H %s :%s", chan,
         IsAccount(jbuf->jb_source) ? cli_account(jbuf->jb_source) : "*",
         cli_info(jbuf->jb_source));
+      if (user->away)
+        sendcmdto_capflag_common_channels_butone(jbuf->jb_source, CMD_AWAY, jbuf->jb_connect,
+                CAP_AWAYNOTIFY, _CAP_LAST_CAP, ":%s", user->away);
 
       /* send an op, too, if needed */
       if (flags & CHFL_CHANOP && (oplevel < MAXOPLEVEL || !MyUser(jbuf->jb_source)))
